@@ -30,6 +30,7 @@ struct AudioPlayer{
         m_sound.setBuffer(m_buffer);
         m_sound.setVolume(volume);
     }
+    AudioPlayer(){}
     void play(){
         m_sound.play();
     }

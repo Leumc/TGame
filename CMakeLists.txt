@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(SYSTEM_COMPONENTS 
     src/system/CrossHair.cpp
+    src/system/AudioManager.cpp
 )
 
 set(INTERFACES
@@ -13,7 +14,7 @@ set(INTERFACES
 )
 
 set(OTHERS
-    src/math.hpp,
+    src/math.hpp
     src/structs.hpp
 )
 
