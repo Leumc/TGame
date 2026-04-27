@@ -13,7 +13,7 @@ void CrossHair::setColor(sf::Color color){
 }
 
 float easeOut01(Timer& timer) {
-    return easeOut(timer.getPassedTime(), 0.1f);
+    return easeOut(timer.getPassedTime(), 0.15f);
 }
 
 void CrossHair::draw(sf::RenderTarget &target, sf::RenderStates states) const {

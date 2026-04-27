@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(SYSTEM_COMPONENTS 
     src/system/CrossHair.cpp
     src/system/AudioManager.cpp
+    src/system/Cursor.cpp
+    src/system/Player.cpp
+    src/system/BulletManager.cpp
 )
 
 set(INTERFACES
@@ -18,7 +21,16 @@ set(OTHERS
     src/structs.hpp
 )
 
-add_executable(tgame main.cpp ${SYSTEM_COMPONENTS} ${INTERFACES})
+set(BULLETS
+    src/bullets/bullet.cpp
+)
+
+add_executable(tgame main.cpp
+    ${SYSTEM_COMPONENTS}
+    ${INTERFACES}
+    ${OTHERS}
+    ${BULLETS}
+)
 
 target_link_libraries(tgame PRIVATE
     sfml-graphics
