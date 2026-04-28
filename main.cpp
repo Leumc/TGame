@@ -33,6 +33,8 @@ int main() {
     Cursor cursor(MousePos);
     Player player(playerPos,crosshair_execute,rotationAngle);
 
+    //bool Ceased=false;
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -72,8 +74,12 @@ int main() {
                         crosshair_reload.restart();
                     }
                 }
+                // if(event.key.code==sf::Keyboard::C){
+                //     Ceased=!Ceased;
+                // }
             }
         }
+        //if(Ceased)continue;
         float rt_angle_sin,rt_angle_cos;
         rotationAngle=angleBetween(MousePos,playerPos,rt_angle_cos,rt_angle_sin);
         if(crossHair.isreloading()&&crosshair_reload.isDone()){
