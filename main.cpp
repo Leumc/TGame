@@ -7,14 +7,20 @@
 #include "src/system/Cursor.hpp"
 #include "src/math.hpp"
 #include "src/system/Player.hpp"
+#include "src/system/BulletManager.hpp"
+#include <cmath>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(1080, 720), "Game");
+    sf::VideoMode desktop = sf::VideoMode::getDesktopMode();
+    //sf::Vector2f WindowSize(1920,1080);
+    sf::Vector2f WindowSize(desktop.width,desktop.height);
+    sf::RenderWindow window(sf::VideoMode(WindowSize.x, WindowSize.y), "Game",sf::Style::None);
 
-    sf::Vector2f MousePos,playerPos(540,360);
+    sf::Vector2f MousePos,playerPos(WindowSize.x/2,WindowSize.y/2);
     float ReladingTime=0.5f;
 
     AudioManager audioManager;
+    BulletManager bulletManager(WindowSize);
     audioManager.addAudio("shoot","../resource/audio/shoot.wav",15.0f);
     audioManager.addAudio("reload","../resource/audio/reload.mp3",15.0f);
     // AudioPlayer shoot("../resource/audio/shoot.wav",15.0f);
@@ -56,6 +62,9 @@ int main() {
             //     }
             // }
             if(event.type==sf::Event::KeyPressed){
+                if(event.key.code==sf::Keyboard::Escape){
+                    window.close();
+                }
                 if(event.key.code==sf::Keyboard::R){
                     if(!crossHair.isreloading()){
                         crossHair.setReloading(true);
@@ -65,7 +74,8 @@ int main() {
                 }
             }
         }
-        rotationAngle=angleBetween(MousePos,playerPos);
+        float rt_angle_sin,rt_angle_cos;
+        rotationAngle=angleBetween(MousePos,playerPos,rt_angle_cos,rt_angle_sin);
         if(crossHair.isreloading()&&crosshair_reload.isDone()){
             crossHair.reload();
             crossHair.setReloading(false);
@@ -79,6 +89,9 @@ int main() {
                     crossHair.setColor(sf::Color::Red);
                     audioManager.playAudio("shoot");
                     crosshair_execute.restart();
+                    bulletManager.createBullet(
+                        sf::Vector2f(playerPos.x-100*rt_angle_cos,playerPos.y-100*rt_angle_sin)
+                        ,{-rt_angle_cos,-rt_angle_sin},rotationAngle);
                 }
             }
         }
@@ -86,6 +99,8 @@ int main() {
         MousePos = sf::Vector2f(sf::Mouse::getPosition(window));
         window.draw(player);
         window.draw(crossHair);
+        bulletManager.moveBullet();
+        window.draw(bulletManager);
         //window.draw(cursor);
         window.display();
     }
