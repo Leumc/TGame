@@ -6,6 +6,8 @@
 #include "../enemies/enemy.hpp"
 #include "BulletManager.hpp"
 
+class Enemy;
+
 class EnemyManager:public sf::Drawable{
     private:
     std::vector<std::shared_ptr<Enemy>> m_enemies;

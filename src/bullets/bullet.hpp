@@ -4,6 +4,8 @@
 #include "../system/CollisionMap.hpp"
 #include "../system/ResourceManager.hpp"
 
+class MapInsert;
+
 class Bullet:public sf::Drawable,public Resource{
     private:
     sf::Vector2f m_pos;

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "BulletManager.hpp"
+#include "ResourceManager.hpp"
 
 enum class CollisionStates:char{
     InValid=-1,
@@ -19,7 +20,7 @@ class MapInsert{
     virtual void setStates(sf::Vector2f pos)=0;
 };
 
-class CollisionMap:public sf::Drawable,MapInsert,MapExtract{
+class CollisionMap:public sf::Drawable,public MapInsert,public MapExtract{
     private:
     char** m_map;
     ResourceManager* m_resource_manager;

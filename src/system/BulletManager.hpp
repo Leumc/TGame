@@ -3,7 +3,9 @@
 #include "../bullets/bullet.hpp"
 #include <memory>
 #include <vector>
-#include "../system/ResourceManager.hpp"
+#include "ResourceManager.hpp"
+
+class Bullet;
 
 class BulletManager:public sf::Drawable{
     private:
