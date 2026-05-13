@@ -8,6 +8,8 @@
 #include "src/math.hpp"
 #include "src/system/Player.hpp"
 #include "src/system/BulletManager.hpp"
+#include "src/system/EnemyManager.hpp"
+#include "src/system/ResourceManager.hpp"
 #include <cmath>
 
 int main() {
@@ -19,8 +21,11 @@ int main() {
     sf::Vector2f MousePos,playerPos(WindowSize.x/2,WindowSize.y/2);
     float ReladingTime=0.5f;
 
+    ResourceManager* resourceManager=new ResourceManager();
+
     AudioManager audioManager;
-    BulletManager bulletManager(WindowSize);
+    BulletManager bulletManager(WindowSize,resourceManager);
+    EnemyManager enemyManager(playerPos,resourceManager);
     audioManager.addAudio("shoot","../resource/audio/shoot.wav",15.0f);
     audioManager.addAudio("reload","../resource/audio/reload.mp3",15.0f);
     // AudioPlayer shoot("../resource/audio/shoot.wav",15.0f);
@@ -29,6 +34,7 @@ int main() {
 
     Timer crosshair_execute(sf::seconds(0.15f));
     Timer crosshair_reload(sf::seconds(ReladingTime));
+    Timer summon_enemy(sf::seconds(0.5f));
     CrossHair crossHair(MousePos,crosshair_execute,crosshair_reload);
     Cursor cursor(MousePos);
     Player player(playerPos,crosshair_execute,rotationAngle);
@@ -82,13 +88,6 @@ int main() {
         //if(Ceased)continue;
         float rt_angle_sin,rt_angle_cos;
         rotationAngle=angleBetween(MousePos,playerPos,rt_angle_cos,rt_angle_sin);
-        if(crossHair.isreloading()&&crosshair_reload.isDone()){
-            crossHair.reload();
-            crossHair.setReloading(false);
-        }
-        if(crosshair_execute.isDone()){
-            crossHair.setColor(sf::Color::White);
-        }
         if(sf::Mouse::isButtonPressed(sf::Mouse::Left)){
             if(!crossHair.isreloading()&&crosshair_execute.isDone()){
                 if(crossHair.shoot()){
@@ -101,12 +100,28 @@ int main() {
                 }
             }
         }
+        if(crossHair.isreloading()&&crosshair_reload.isDone()){
+            crossHair.reload();
+            crossHair.setReloading(false);
+        }
+        if(crosshair_execute.isDone()){
+            crossHair.setColor(sf::Color::White);
+        }
+        float summonArea_radius=500.0f;
+        if(summon_enemy.isDone()){
+            float random_angle=randfloat(0,M_PI*2);
+            sf::Vector2f randPos(playerPos.x+summonArea_radius*std::cosf(random_angle),playerPos.y+summonArea_radius*std::sinf(random_angle));
+            enemyManager.createEnemy(20,5,randPos);
+            summon_enemy.restart();
+        }
         window.clear(sf::Color::Black);
         MousePos = sf::Vector2f(sf::Mouse::getPosition(window));
         window.draw(player);
         window.draw(crossHair);
         bulletManager.moveBullet();
+        enemyManager.moveEnemy();
         window.draw(bulletManager);
+        window.draw(enemyManager);
         //window.draw(cursor);
         window.display();
     }

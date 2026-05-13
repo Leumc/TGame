@@ -1,4 +1,7 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
+
 class Cursor:public sf::Drawable{
     private:
     sf::Vector2f& m_displayPos;

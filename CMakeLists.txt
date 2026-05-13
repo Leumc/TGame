@@ -10,6 +10,9 @@ set(SYSTEM_COMPONENTS
     src/system/Cursor.cpp
     src/system/Player.cpp
     src/system/BulletManager.cpp
+    src/system/EnemyManager.cpp
+    src/system/CollisionMap.cpp
+    src/system/ResourceManager.cpp
 )
 
 set(INTERFACES
@@ -19,10 +22,15 @@ set(INTERFACES
 set(OTHERS
     src/math.hpp
     src/structs.hpp
+    src/function.hpp
 )
 
 set(BULLETS
     src/bullets/bullet.cpp
+)
+
+set(ENEMIES
+    src/enemies/enemy.cpp
 )
 
 add_executable(tgame main.cpp
@@ -30,6 +38,7 @@ add_executable(tgame main.cpp
     ${INTERFACES}
     ${OTHERS}
     ${BULLETS}
+    ${ENEMIES}
 )
 
 target_link_libraries(tgame PRIVATE

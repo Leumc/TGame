@@ -3,6 +3,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
+#include "system/ResourceManager.hpp"
+
 struct Timer{
     sf::Clock m_clock;
     sf::Time m_duration;
@@ -35,3 +37,4 @@ struct AudioPlayer{
         m_sound.play();
     }
 };
+

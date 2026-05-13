@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../structs.hpp"
 #include <unordered_map>
 #include <memory>

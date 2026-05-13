@@ -1,9 +1,13 @@
 #include "BulletManager.hpp"
 
-BulletManager::BulletManager(sf::Vector2f& windowSize):m_windowSize(windowSize){}
+BulletManager::BulletManager(sf::Vector2f& windowSize,ResourceManager* manager):m_windowSize(windowSize){
+    m_resource_manager=manager;
+}
 
 void BulletManager::createBullet(sf::Vector2f originalPos,sf::Vector2f speed,float rotationAngle){
-    m_bullets.push_back(std::make_unique<Bullet>(originalPos,speed,rotationAngle));
+    std::shared_ptr<Bullet> bullet=std::make_shared<Bullet>(originalPos,speed,rotationAngle,m_resource_manager);
+    m_bullets.push_back(bullet);
+    m_resource_manager->AddResource(std::static_pointer_cast<Resource>(bullet));
 }
 
 void BulletManager::moveBullet(){
